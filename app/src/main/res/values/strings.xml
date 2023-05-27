@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Pixlogy</string>
+    <string name="pixlogy">PIXLOGY</string>
+    <string name="ocr_scanner">OCR Scanner</string>
+    <string name="image_stegnography">Image Stegnography</string>
+    <string name="scan_search"><![CDATA[Scan & Search]]></string>
+    <string name="barcode_qr_code_reader">Barcode/QR Code Reader</string>
+    <string name="image_compressor">Image Compressor</string>
+    <string name="pdf_convertor">PDF Convertor</string>
+    <string name="sign_out">sign out</string>
+    <string name="encode">Encode</string>
+    <string name="decode">Decode</string>
 </resources>

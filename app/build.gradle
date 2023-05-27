@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
+    id 'com.google.gms.google-services'
 
 }
 
@@ -41,6 +42,8 @@ android {
 
 dependencies {
     implementation "com.google.dagger:hilt-android:2.44"
+    implementation 'com.google.android.gms:play-services-auth:20.5.0'
+    implementation 'com.google.firebase:firebase-auth-ktx:22.0.0'
     kapt "com.google.dagger:hilt-compiler:2.44"
 
     implementation 'androidx.core:core-ktx:1.10.1'
@@ -50,6 +53,8 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation 'androidx.core:core:1.0.0'
+
 
     //Hilt
     def hilt_version = "2.42"
@@ -73,6 +78,14 @@ dependencies {
 
 
     implementation 'androidx.preference:preference:1.2.0'
+
+    //Glide
+    def glide_version = "4.13.2"
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+
+    //Image stegnography dependency
+    implementation 'com.github.aagarwal1012:Image-Steganography-Library-Android:v1.0'
+
 
 
 
