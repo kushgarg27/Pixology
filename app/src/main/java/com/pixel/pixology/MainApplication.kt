@@ -1,11 +1,26 @@
 package com.pixel.pixology
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
+import PreferenceManager
+import android.app.Application
 
-class MainApplication : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+import androidx.appcompat.app.AppCompatDelegate
+
+
+import dagger.hilt.android.HiltAndroidApp
+import javax.inject.Inject
+
+@HiltAndroidApp
+class MainApplication:Application(){
+    @Suppress("DEPRECATION")
+    @Inject
+
+    override fun onCreate() {
+        super.onCreate()
+
+
+
+        //dark mode disable
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
+
 }

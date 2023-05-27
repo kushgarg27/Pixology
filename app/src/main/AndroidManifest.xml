@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
+        android:name=".MainApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -12,19 +13,21 @@
         android:theme="@style/Theme.Pixology"
         tools:targetApi="31">
         <activity
-            android:name=".SignupActivity"
+            android:name=".ui.auth.signup.SignupActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainApplication"
-            android:exported="true">
+            android:name=".ui.splash.SplashActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainApplication"
+            android:exported="false">
+
         </activity>
     </application>
 
