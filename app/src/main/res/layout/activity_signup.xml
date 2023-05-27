@@ -4,7 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/loginsc_bg"
     tools:context=".ui.auth.signup.SignupActivity">
+
+    <ProgressBar
+        android:elevation="15dp"
+        android:indeterminateTint="@color/theme"
+
+        android:visibility="gone"
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:layout_width="120dp"
@@ -283,10 +299,11 @@
             android:gravity="center"
             app:cornerRadius="3dp"
             app:iconSize="14dp"
-            android:paddingStart="5dp"
+            android:paddingStart="20dp"
             tools:ignore="TextSizeCheck" />
 
         <com.google.android.material.button.MaterialButton
+
             android:id="@+id/signupWithGoogle"
             android:layout_width="180dp"
             android:layout_height="50dp"
@@ -295,14 +312,13 @@
             android:backgroundTint="@color/white"
             android:text="Signup with Google"
             android:textAlignment="textStart"
-            android:gravity="center"
             app:cornerRadius="3dp"
             android:textAllCaps="false"
             android:textColor="@color/theme"
             android:textSize="10dp"
             app:icon="@drawable/icons8_google"
             app:iconSize="14dp"
-            android:paddingStart="5dp"
+            android:paddingStart="20dp"
             app:iconTint="@color/theme"
             tools:ignore="TextSizeCheck" />
 

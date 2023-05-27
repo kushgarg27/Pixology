@@ -71,9 +71,9 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-        <ImageView
+        <pl.droidsonroids.gif.GifImageView
             android:id="@+id/gifImageView"
-            android:layout_width="338dp"
+            android:layout_width="match_parent"
             android:layout_height="230dp"
             android:src="@drawable/otpanim"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
@@ -94,9 +94,10 @@
             app:layout_constraintTop_toBottomOf="@+id/textView2">
 
             <ImageView
+android:paddingBottom="10dp"
 
-                android:layout_width="61dp"
-                android:layout_height="55dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/otp"
                 app:layout_constraintBottom_toBottomOf="@+id/filledTextField1"
@@ -128,18 +129,19 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_phone"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-
+                    android:layout_height="50dp"
                     android:background="@drawable/edit_text_styling"
                     android:ems="10"
                     android:hint="Enter Number"
                     android:inputType="phone"
                     android:maxLength="10"
                     android:maxLines="1"
+                    android:includeFontPadding="false"
+                    android:textAlignment="center"
                     android:textColor="#050505"
                     android:textColorHint="@color/theme"
                     android:textCursorDrawable="@drawable/cursor_styling"
-                    android:textSize="14dp"
+                    android:textSize="14sp"
                     tools:ignore="TextSizeCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 

@@ -1,14 +1,14 @@
 package com.pixel.pixology.ui.auth.login
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.CommonStatusCodes
+import com.google.android.gms.safetynet.SafetyNet
+import com.google.android.gms.safetynet.SafetyNetApi
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
@@ -16,7 +16,6 @@ import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken
 import com.google.firebase.auth.PhoneAuthProvider.OnVerificationStateChangedCallbacks
-import com.pixel.pixology.R
 import com.pixel.pixology.databinding.ActivityLoginWthPhoneBinding
 import com.pixel.pixology.ui.auth.otp.OtpActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,45 +28,62 @@ class LoginWthPhoneActivity : AppCompatActivity() {
     private var mCallbacks: OnVerificationStateChangedCallbacks? = null
 
     private lateinit var binding: ActivityLoginWthPhoneBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLoginWthPhoneBinding.inflate(layoutInflater, null, false)
+        binding = ActivityLoginWthPhoneBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (Build.VERSION.SDK_INT >= 21) {
-            val window = this.window
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            window.statusBarColor = this.resources.getColor(R.color.theme)
-            mAuth = FirebaseAuth.getInstance()
-            val gifImageView = findViewById<ImageView>(R.id.gifImageView)
-            Glide.with(this).load(R.drawable.otpanim).into(gifImageView)
-            binding.loginBtn.setOnClickListener(View.OnClickListener {
-                if (binding.etPhone.getText().toString().trim { it <= ' ' }.isEmpty()) {
-                    binding.etPhone.setError(" Phone number Invalid")
-                    binding.etPhone.requestFocus()
-                } else if (binding.etPhone.getText().toString().trim { it <= ' ' }.length < 10) {
-                    binding.etPhone.setError(" Phone number Invalid")
-                    binding.etPhone.requestFocus()
-                } else {
-                    sendOtp()
-                }
-            })
-        }
+        mAuth = FirebaseAuth.getInstance()
 
+        binding.loginBtn.setOnClickListener {
+            val phoneNumber = binding.etPhone.text.toString().trim()
+
+            if (phoneNumber.isEmpty()) {
+                binding.etPhone.error = "Phone number is required"
+                binding.etPhone.requestFocus()
+            } else if (phoneNumber.length < 10) {
+                binding.etPhone.error = "Invalid phone number"
+                binding.etPhone.requestFocus()
+            } else {
+                verifyWithSafetyNet(phoneNumber)
+            }
+        }
     }
 
-    private fun sendOtp() {
+    private fun verifyWithSafetyNet(phoneNumber: String) {
+        binding.progressbar.visibility = View.VISIBLE
+        binding.loginBtn.visibility = View.INVISIBLE
+        sendOtp(phoneNumber)
 
-        binding.progressbar.setVisibility(View.VISIBLE)
-        binding.loginBtn.setVisibility(View.INVISIBLE)
+//        SafetyNet.getClient(this).verifyWithRecaptcha(getString(R.string.recaptcha_site_key))
+//            .addOnSuccessListener(this) { response ->
+//                val userResponseToken = response.tokenResult
+//                if (userResponseToken.isNotEmpty()) {
+//                    sendOtp(phoneNumber)
+//                }
+//            }
+//            .addOnFailureListener(this) { e ->
+//                if (e is ApiException) {
+//                    val statusCode = e.statusCode
+//                    Toast.makeText(this@LoginWthPhoneActivity, "Error: $statusCode", Toast.LENGTH_SHORT).show()
+//                } else {
+//                    Toast.makeText(this@LoginWthPhoneActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+//                }
+//                binding.progressbar.visibility = View.GONE
+//                binding.loginBtn.visibility = View.VISIBLE
+//            }
+    }
 
-
+    private fun sendOtp(phoneNumber: String) {
         mCallbacks = object : OnVerificationStateChangedCallbacks() {
-            override fun onVerificationCompleted(credential: PhoneAuthCredential) {}
+            override fun onVerificationCompleted(credential: PhoneAuthCredential) {
+                // Auto-retrieval of verification code is done by Firebase
+            }
+
             override fun onVerificationFailed(e: FirebaseException) {
-                binding.progressbar.setVisibility(View.GONE)
-                binding.loginBtn.setVisibility(View.VISIBLE)
+                binding.progressbar.visibility = View.GONE
+                binding.loginBtn.visibility = View.VISIBLE
                 Toast.makeText(this@LoginWthPhoneActivity, e.localizedMessage, Toast.LENGTH_SHORT).show()
             }
 
@@ -75,21 +91,22 @@ class LoginWthPhoneActivity : AppCompatActivity() {
                 verificationId: String,
                 token: ForceResendingToken
             ) {
-                binding.progressbar.setVisibility(View.GONE)
-                binding.loginBtn.setVisibility(View.VISIBLE)
-                val i = Intent(this@LoginWthPhoneActivity, OtpActivity::class.java)
-                i.putExtra("phone", binding.etPhone.getText().toString().trim { it <= ' ' })
-                i.putExtra("verficationId", verificationId)
-                startActivity(i)
+                binding.progressbar.visibility = View.GONE
+                binding.loginBtn.visibility = View.VISIBLE
+                val intent = Intent(this@LoginWthPhoneActivity, OtpActivity::class.java)
+                intent.putExtra("phoneNumber", phoneNumber)
+                intent.putExtra("verificationId", verificationId)
+                startActivity(intent)
             }
         }
+
         val options = PhoneAuthOptions.newBuilder(mAuth!!)
-            .setPhoneNumber("+91" + binding.etPhone.getText().toString()) // Phone number to verify
+            .setPhoneNumber("+91$phoneNumber") // Phone number to verify
             .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
             .setActivity(this) // Activity (for callback binding)
             .setCallbacks(mCallbacks as OnVerificationStateChangedCallbacks) // OnVerificationStateChangedCallbacks
             .build()
-        PhoneAuthProvider.verifyPhoneNumber(options)
 
+        PhoneAuthProvider.verifyPhoneNumber(options)
     }
 }

@@ -44,6 +44,7 @@ dependencies {
     implementation "com.google.dagger:hilt-android:2.44"
     implementation 'com.google.android.gms:play-services-auth:20.5.0'
     implementation 'com.google.firebase:firebase-auth-ktx:22.0.0'
+    implementation 'com.google.firebase:firebase-auth:21.0.3'
     kapt "com.google.dagger:hilt-compiler:2.44"
 
     implementation 'androidx.core:core-ktx:1.10.1'
@@ -53,7 +54,7 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    implementation 'androidx.core:core:1.0.0'
+    implementation 'androidx.core:core:1.10.1'
 
 
     //Hilt
@@ -85,6 +86,12 @@ dependencies {
 
     //Image stegnography dependency
     implementation 'com.github.aagarwal1012:Image-Steganography-Library-Android:v1.0'
+
+
+    implementation 'com.google.firebase:firebase-auth-ktx:22.0.0'
+    implementation 'com.google.android.gms:play-services-safetynet:18.0.1'
+
+
 
 
 
