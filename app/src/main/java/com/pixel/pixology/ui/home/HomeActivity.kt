@@ -5,7 +5,6 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
-import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -15,7 +14,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.pixel.pixology.R
 import com.pixel.pixology.databinding.ActivityHomeBinding
 import com.pixel.pixology.ui.auth.login.LoginActivity
+import com.pixel.pixology.ui.ocrScanner.OCRActivity
+
 import com.pixel.pixology.ui.stegnography.ImageStegnographyActivity
+
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -44,14 +46,9 @@ class HomeActivity : AppCompatActivity() {
             })
         }
 
-        binding.imgStegnographyBtn.setOnClickListener(View.OnClickListener {
-            startActivity(
-                Intent(
-                    this@HomeActivity,
-                    ImageStegnographyActivity::class.java
-                )
-            )
-        })
+        manageFunctions()
+
+
 
 
 //        binding.imageCompressorBtn.setOnClickListener(View.OnClickListener {
@@ -63,6 +60,31 @@ class HomeActivity : AppCompatActivity() {
 //            )
 //        })
 
+
+    }
+
+    private fun manageFunctions() {
+        movedNext()
+    }
+
+    private fun movedNext() {
+        binding.imgStegnographyBtn.setOnClickListener(View.OnClickListener {
+            startActivity(
+                Intent(
+                    this@HomeActivity,
+                    ImageStegnographyActivity::class.java
+                )
+            )
+        })
+
+        binding.ocrScannerBtn.setOnClickListener(View.OnClickListener {
+            startActivity(
+                Intent(
+                    this@HomeActivity, OCRActivity::class.java
+                
+                )
+            )
+        })
 
     }
 
