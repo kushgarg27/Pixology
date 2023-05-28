@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/loginsc_bg"
     tools:context=".ui.auth.otp.OtpActivity">
 
     <LinearLayout
@@ -12,51 +13,145 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-        <ProgressBar
-            android:layout_gravity="center_horizontal"
 
-            android:id="@+id/progressbar"
-            android:layout_width="wrap_content"
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginStart="250dp"
+            android:src="@drawable/logo_transparent"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.945"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.505" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginBottom="50dp"
+            android:background="@drawable/loginsc_intbg"
+            android:elevation="10dp"
+            android:orientation="vertical"
+            android:paddingTop="20dp"
+            android:paddingBottom="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Please enter the OTP code sent to your mobile number" />
+            app:layout_constraintTop_toTopOf="parent"
+           >
 
 
+            <ProgressBar
+                android:id="@+id/progressbar"
 
-        <TextView
-            android:id="@+id/phoneNUm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="mob num"
-            />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/btn_verify"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.471"
+                app:layout_constraintStart_toStartOf="parent"
 
-        <EditText
-            android:id="@+id/et_otp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter OTP code here"
-            android:inputType="number"
-            android:maxLength="6"
-            tools:ignore="TouchTargetSizeCheck" />
+                app:layout_constraintTop_toBottomOf="@+id/gifImageView"
+                app:layout_constraintVertical_bias="1.0">
 
-        <Button
-            android:id="@+id/btn_verify"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Verify" />
+            </ProgressBar>
 
-        <TextView
-            android:id="@+id/tv_resend"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Didn't receive OTP code? Resend" />
+            <TextView
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:id="@+id/text1"
+                android:textAlignment="center"
+                android:textSize="12sp"
+                android:elevation="20dp"
+                android:layout_marginTop="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_bold"
+                android:text="@string/please_enter_the_otp_code_sent_to_your_mobile_number"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/gifImageView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/otpanim"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text1" />
+
+
+            <com.goodiebag.pinview.Pinview
+
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
+                android:id="@+id/etOtp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cursorVisible="false"
+                app:forceKeyboard="true"
+                app:hint="0"
+                app:inputType="number"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/gifImageView"
+                app:password="false"
+                app:pinBackground="@drawable/edit_text_styling"
+                app:pinHeight="40dp"
+                app:pinLength="6"
+                app:pinWidth="30dp" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_verify"
+                android:layout_marginTop="50dp"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_gravity="center"
+                android:background="@drawable/login_btn"
+                android:elevation="10dp"
+                app:backgroundTint="@color/theme2"
+                app:icon="@drawable/login_btn_arrow"
+                app:iconSize="35dp"
+                app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
+                app:layout_constraintHorizontal_bias="0.501"
+                app:layout_constraintStart_toStartOf="@+id/linearLayout2"
+                app:layout_constraintTop_toBottomOf="@+id/etOtp"
+                tools:ignore="SpeakableTextPresentCheck">
+
+            </com.google.android.material.button.MaterialButton>
+
+            <TextView
+                android:id="@+id/tv_resend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:fontFamily="@font/poppins_bold"
+                android:text="@string/didn_t_receive_otp_code_resend"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_verify" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+<!--        <TextView-->
+<!--            android:id="@+id/phoneNUm"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="mob num"-->
+<!--            />-->
+
+
+
+
 
     </LinearLayout>
 

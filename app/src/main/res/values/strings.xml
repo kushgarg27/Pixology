@@ -10,4 +10,7 @@
     <string name="sign_out">sign out</string>
     <string name="encode">Encode</string>
     <string name="decode">Decode</string>
+    <string name="didn_t_receive_otp_code_resend">Didn\'t receive OTP code? Resend</string>
+    <string name="please_enter_the_otp_code_sent_to_your_mobile_number">Please enter the OTP code sent to your mobile number</string>
+    <string name="enter_number">Enter Number</string>
 </resources>
