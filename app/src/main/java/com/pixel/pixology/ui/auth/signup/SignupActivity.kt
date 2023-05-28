@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.pixel.pixology.R
 import com.pixel.pixology.databinding.ActivitySignupBinding
 import com.pixel.pixology.ui.auth.login.LoginActivity
 import com.pixel.pixology.ui.auth.login.LoginWthPhoneActivity
@@ -86,7 +87,6 @@ class SignupActivity : AppCompatActivity() {
                 finish()
             }
         }
-
     }
 
     private fun createUser() {
@@ -116,7 +116,6 @@ class SignupActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
                         val user = auth.currentUser
                         sendEmailVerification(user)
-
                     } else {
                         Toast.makeText(this@SignupActivity, "Sign Up error", Toast.LENGTH_SHORT).show()
                         binding.progressBar.visibility = View.GONE
@@ -136,6 +135,7 @@ class SignupActivity : AppCompatActivity() {
 
     private fun requestGoogleSignin() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id)) // Replace with your own Web client ID
             .requestEmail()
             .build()
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
@@ -153,7 +153,7 @@ class SignupActivity : AppCompatActivity() {
                 val account = task.getResult(ApiException::class.java)
 
                 // Authenticating user with Firebase using received token id
-                firebaseAuthWithGoogle(account.idToken)
+                firebaseAuthWithGoogle(account.idToken) // Pass the idToken to the method
             } catch (e: ApiException) {
                 e.printStackTrace()
             }
@@ -189,6 +189,4 @@ class SignupActivity : AppCompatActivity() {
             finish()
         }
     }
-
-
 }

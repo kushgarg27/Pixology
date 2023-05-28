@@ -1,7 +1,6 @@
 @file:Suppress("DEPRECATION")
 
 package com.pixel.pixology.ui.splash
-
 import android.preference.PreferenceManager
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -10,8 +9,8 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.pixel.pixology.R
 import com.pixel.pixology.databinding.ActivitySplashBinding
-
 import com.pixel.pixology.ui.auth.signup.SignupActivity
+
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 @AndroidEntryPoint

@@ -1,5 +1,6 @@
 package com.pixel.pixology.ui.auth.login
 
+
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -20,6 +21,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.pixel.pixology.R
 import com.pixel.pixology.databinding.ActivityLoginBinding
 import com.pixel.pixology.ui.auth.signup.SignupActivity
+
 import com.pixel.pixology.ui.home.HomeActivity
 import dagger.hilt.android.AndroidEntryPoint
 
