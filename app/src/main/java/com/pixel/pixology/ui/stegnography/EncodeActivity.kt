@@ -1,7 +1,6 @@
 package com.pixel.pixology.ui.stegnography
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
@@ -13,7 +12,6 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -32,21 +30,21 @@ import java.io.OutputStream
 class EncodeActivity : AppCompatActivity(), TextEncodingCallback {
 
     private val SELECT_PICTURE = 100
-    private val TAG = "Encode Class"
+    private val TAG = "EncodeClass"
 
-    private var filepath: Uri? = null
+    private lateinit var filepath: Uri
 
-    private var imageSteganography: ImageSteganography? = null
-    private var textEncoding: TextEncoding? = null
+    lateinit var imageSteganography: ImageSteganography
+    lateinit var textEncoding: TextEncoding
 
-    private var save: ProgressDialog? = null
+    lateinit var save: ProgressDialog
 
     //Bitmaps
-    private var original_image: Bitmap? = null
-    private var encoded_image: Bitmap? = null
+    lateinit var original_image: Bitmap
+    lateinit var encoded_image: Bitmap
 
     private lateinit var binding: ActivityEncodeBinding
-    @SuppressLint("SuspiciousIndentation")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEncodeBinding.inflate(layoutInflater, null, false)
@@ -56,7 +54,7 @@ class EncodeActivity : AppCompatActivity(), TextEncodingCallback {
 
 
         //Choose image button
-        binding.chooseImageButton.setOnClickListener(View.OnClickListener { ImageChooser() })
+        binding.chooseImageButton.setOnClickListener(View.OnClickListener { imageChooser() })
 
         //Encode Button
 
@@ -75,7 +73,7 @@ class EncodeActivity : AppCompatActivity(), TextEncodingCallback {
                     //TextEncoding object Instantiation
                     textEncoding = TextEncoding(this@EncodeActivity, this@EncodeActivity)
                     //Executing the encoding
-                    textEncoding!!.execute(imageSteganography)
+                    textEncoding.execute(imageSteganography)
                 }
             }
         })
@@ -83,24 +81,21 @@ class EncodeActivity : AppCompatActivity(), TextEncodingCallback {
 
         //Save image button
         binding.saveImageButton.setOnClickListener(View.OnClickListener {
-            val imgToSave = encoded_image!!
-            var PerformEncoding = Thread { saveToInternalStorage(imgToSave) }
+            val imgToSave = encoded_image
+            val performEncoding = Thread { saveToInternalStorage(imgToSave) }
             save = ProgressDialog(this@EncodeActivity)
-                save!!.setMessage("Saving, Please Wait...")
-                save!!.setTitle("Saving Image")
-                save!!.setIndeterminate(false)
-                save!!.setCancelable(false)
-                save!!.show()
-            PerformEncoding.start()
-
-//            saveToInternalStorage(imgToSave)
-
-
+            save.setMessage("Saving, Please Wait...")
+            save.setTitle("Saving Image")
+            save.isIndeterminate = false
+            save.setCancelable(false)
+            save.show()
+            performEncoding.start()
         })
+
 
     }
 
-    private fun ImageChooser() {
+    private fun imageChooser() {
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
@@ -116,15 +111,35 @@ class EncodeActivity : AppCompatActivity(), TextEncodingCallback {
 
         //Image set to imageView
         if (requestCode == SELECT_PICTURE && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
-            filepath = data.data
+            filepath = data.data!!
             try {
-                original_image = MediaStore.Images.Media.getBitmap(getContentResolver(), filepath)
+                original_image = MediaStore.Images.Media.getBitmap(contentResolver, filepath)
                 binding.imageview.setImageBitmap(original_image)
             } catch (e: IOException) {
                 Log.d(TAG, "Error : $e")
             }
         }
     }
+
+
+//    fun saveImage(image:Bitmap){
+//        //Log.e(TAG, "saveImage: " + imageName)
+//        var foStream: FileOutputStream
+//        try {
+//            foStream = this.openFileOutput("encode.png", Context.MODE_PRIVATE)
+//            image.compress(Bitmap.CompressFormat.PNG, 100, foStream)
+//            foStream.close()
+//            Log.e("TAG", "saveImage: ${this.fileList()}")
+//            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show()
+//            //settingsBinding.pullToRefreshInSettingsFragment.setRefreshing(false)
+//            //Log.d("SettingsActivity", "saveImage: " + Arrays.toString(this.fileList()))
+//        } catch (e: Exception) {
+//            //settingsBinding.pullToRefreshInSettingsFragment.setRefreshing(false)
+//            Log.d("saveImage", "Exception 2, Something went wrong!")
+//            //e.printStackTrace()
+//        }
+//
+//    }
 
     private fun saveToInternalStorage(imgToSave: Bitmap) {
         val fOut: OutputStream
@@ -143,8 +158,7 @@ class EncodeActivity : AppCompatActivity(), TextEncodingCallback {
             ) // saving the Bitmap to a file
             fOut.flush() // Not really required
             fOut.close() // do not forget to close the stream
-//            binding.whetherEncoded.post(Runnable { save?.dismiss() })
-            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show()
+            binding.whetherEncoded.post(Runnable { save.dismiss() })
         } catch (e: FileNotFoundException) {
             e.printStackTrace()
         } catch (e: IOException) {

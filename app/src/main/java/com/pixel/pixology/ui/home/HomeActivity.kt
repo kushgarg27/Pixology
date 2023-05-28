@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.pixel.pixology.R
 import com.pixel.pixology.databinding.ActivityHomeBinding
 import com.pixel.pixology.ui.auth.login.LoginActivity
+import com.pixel.pixology.ui.imagecompressor.ImageCompressorActivity
 import com.pixel.pixology.ui.ocrScanner.OCRActivity
 
 import com.pixel.pixology.ui.stegnography.ImageStegnographyActivity
@@ -51,14 +52,14 @@ class HomeActivity : AppCompatActivity() {
 
 
 
-//        binding.imageCompressorBtn.setOnClickListener(View.OnClickListener {
-//            startActivity(
-//                Intent(
-//                    this@HomeActivity,
-//                    ImgCompressorA::class.java
-//                )
-//            )
-//        })
+        binding.imageCompressorBtn.setOnClickListener(View.OnClickListener {
+            startActivity(
+                Intent(
+                    this@HomeActivity,
+                    ImageCompressorActivity::class.java
+                )
+            )
+        })
 
 
     }

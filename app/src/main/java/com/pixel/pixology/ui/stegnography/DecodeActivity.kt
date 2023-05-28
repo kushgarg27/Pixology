@@ -25,7 +25,7 @@ class DecodeActivity : AppCompatActivity(), TextDecodingCallback {
     private var filepath: Uri? = null
 
     //Bitmap
-    private var original_image: Bitmap? = null
+    private lateinit var original_image: Bitmap
 
     private lateinit var binding: ActivityDecodeBinding
     override fun onCreate(savedInstanceState: Bundle?) {
