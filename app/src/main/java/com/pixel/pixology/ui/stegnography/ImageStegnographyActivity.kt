@@ -1,5 +1,6 @@
 package com.pixel.pixology.ui.stegnography
 
+import com.pixel.pixology.ui.stegnography.EncodeActivity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
