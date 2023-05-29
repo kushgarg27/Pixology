@@ -15,6 +15,7 @@ import com.pixel.pixology.R
 import com.pixel.pixology.databinding.ActivityHomeBinding
 import com.pixel.pixology.ui.auth.login.LoginActivity
 import com.pixel.pixology.ui.imagecompressor.ImageCompressorActivity
+import com.pixel.pixology.ui.imagetopdf.PdfConvertoreActivity
 import com.pixel.pixology.ui.ocrScanner.OCRActivity
 
 import com.pixel.pixology.ui.stegnography.ImageStegnographyActivity
@@ -61,6 +62,14 @@ class HomeActivity : AppCompatActivity() {
             )
         })
 
+        binding.imgToPdfBtn.setOnClickListener(View.OnClickListener {
+            startActivity(
+                Intent(
+                    this@HomeActivity,
+                    PdfConvertoreActivity::class.java
+                )
+            )
+        })
 
     }
 

@@ -12,9 +12,11 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import com.ayush.imagesteganographylibrary.Text.AsyncTaskCallback.TextEncodingCallback
 import com.ayush.imagesteganographylibrary.Text.ImageSteganography
 import com.ayush.imagesteganographylibrary.Text.TextEncoding
@@ -47,7 +49,7 @@ class EncodeActivity : AppCompatActivity(), TextEncodingCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityEncodeBinding.inflate(layoutInflater, null, false)
+        binding = ActivityEncodeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         checkAndRequestPermissions()
@@ -121,48 +123,39 @@ class EncodeActivity : AppCompatActivity(), TextEncodingCallback {
         }
     }
 
-
-//    fun saveImage(image:Bitmap){
-//        //Log.e(TAG, "saveImage: " + imageName)
-//        var foStream: FileOutputStream
-//        try {
-//            foStream = this.openFileOutput("encode.png", Context.MODE_PRIVATE)
-//            image.compress(Bitmap.CompressFormat.PNG, 100, foStream)
-//            foStream.close()
-//            Log.e("TAG", "saveImage: ${this.fileList()}")
-//            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show()
-//            //settingsBinding.pullToRefreshInSettingsFragment.setRefreshing(false)
-//            //Log.d("SettingsActivity", "saveImage: " + Arrays.toString(this.fileList()))
-//        } catch (e: Exception) {
-//            //settingsBinding.pullToRefreshInSettingsFragment.setRefreshing(false)
-//            Log.d("saveImage", "Exception 2, Something went wrong!")
-//            //e.printStackTrace()
-//        }
-//
-//    }
-
     private fun saveToInternalStorage(imgToSave: Bitmap) {
-        val fOut: OutputStream
         val file = File(
             Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_DOWNLOADS
             ), "Encoded" + ".PNG"
-        ) // the File to save ,
+        )
 
         try {
-            fOut = FileOutputStream(file)
-            imgToSave.compress(
-                Bitmap.CompressFormat.PNG,
-                100,
-                fOut
-            ) // saving the Bitmap to a file
-            fOut.flush() // Not really required
-            fOut.close() // do not forget to close the stream
-            binding.whetherEncoded.post(Runnable { save.dismiss() })
-        } catch (e: FileNotFoundException) {
-            e.printStackTrace()
+            val fOut: OutputStream = FileOutputStream(file)
+            imgToSave.compress(Bitmap.CompressFormat.PNG, 100, fOut)
+            fOut.flush()
+            fOut.close()
+
+            // Add the image to the gallery using FileProvider
+            val imageUri = FileProvider.getUriForFile(
+                this,
+                "${packageName}.fileprovider",
+                file
+            )
+            val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
+            mediaScanIntent.data = imageUri
+            sendBroadcast(mediaScanIntent)
+
+            binding.whetherEncoded.post {
+                save.dismiss()
+                Toast.makeText(this@EncodeActivity, "Image saved successfully.", Toast.LENGTH_SHORT).show()
+            }
         } catch (e: IOException) {
             e.printStackTrace()
+            binding.whetherEncoded.post {
+                save.dismiss()
+                Toast.makeText(this@EncodeActivity, "Failed to save image.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -176,6 +169,7 @@ class EncodeActivity : AppCompatActivity(), TextEncodingCallback {
             encoded_image = result.getEncoded_image()
             binding.whetherEncoded.setText("Encoded")
             binding.imageview.setImageBitmap(encoded_image)
+            Log.e(TAG, "onCompleteTextEncoding: $encoded_image", )
         }
     }
 

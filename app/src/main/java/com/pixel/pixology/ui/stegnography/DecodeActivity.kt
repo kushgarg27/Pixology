@@ -30,7 +30,7 @@ class DecodeActivity : AppCompatActivity(), TextDecodingCallback {
     private lateinit var binding: ActivityDecodeBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityDecodeBinding.inflate(layoutInflater, null, false)
+        binding = ActivityDecodeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 
