@@ -1,7 +1,5 @@
 package com.pixel.pixology.ui.stegnography
-
 import android.Manifest
-import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -10,190 +8,135 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import com.ayush.imagesteganographylibrary.Text.AsyncTaskCallback.TextEncodingCallback
 import com.ayush.imagesteganographylibrary.Text.ImageSteganography
 import com.ayush.imagesteganographylibrary.Text.TextEncoding
 import com.pixel.pixology.databinding.ActivityEncodeBinding
-import dagger.hilt.android.AndroidEntryPoint
-import java.io.File
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.OutputStream
+import java.io.*
 
-@AndroidEntryPoint
+@Suppress("DEPRECATION")
 class EncodeActivity : AppCompatActivity(), TextEncodingCallback {
-
-    private val SELECT_PICTURE = 100
-    private val TAG = "EncodeClass"
-
-    private lateinit var filepath: Uri
-
-    lateinit var imageSteganography: ImageSteganography
-    lateinit var textEncoding: TextEncoding
-
-    lateinit var save: ProgressDialog
-
-    //Bitmaps
-    lateinit var original_image: Bitmap
-    lateinit var encoded_image: Bitmap
-
-    private lateinit var binding: ActivityEncodeBinding
-
+    private var filePath: Uri? = null
+    private var originalImage: Bitmap? = null
+    private var encodedImage: Bitmap? = null
+    private val saveProgressDialog: ProgressDialog? = null
+    private var binding: ActivityEncodeBinding? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEncodeBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
+        setContentView(binding!!.root)
         checkAndRequestPermissions()
-
-
-        //Choose image button
-        binding.chooseImageButton.setOnClickListener(View.OnClickListener { imageChooser() })
-
-        //Encode Button
-
-        //Encode Button
-        binding.encodeButton.setOnClickListener(View.OnClickListener {
-            binding.whetherEncoded.setText("")
-            if (filepath != null) {
-                if (binding.message.getText() != null) {
-
-                    //ImageSteganography Object instantiation
-                    imageSteganography = ImageSteganography(
-                        binding.message.getText().toString(),
-                        binding.secretKey.getText().toString(),
-                        original_image
-                    )
-                    //TextEncoding object Instantiation
-                    textEncoding = TextEncoding(this@EncodeActivity, this@EncodeActivity)
-                    //Executing the encoding
-                    textEncoding.execute(imageSteganography)
-                }
-            }
-        })
-
-
-        //Save image button
-        binding.saveImageButton.setOnClickListener(View.OnClickListener {
-            val imgToSave = encoded_image
-            val performEncoding = Thread { saveToInternalStorage(imgToSave) }
-            save = ProgressDialog(this@EncodeActivity)
-            save.setMessage("Saving, Please Wait...")
-            save.setTitle("Saving Image")
-            save.isIndeterminate = false
-            save.setCancelable(false)
-            save.show()
-            performEncoding.start()
-        })
-
-
+        binding!!.chooseImageButton.setOnClickListener { imageChooser() }
+        binding!!.encodeButton.setOnClickListener { encodeMessage() }
+        binding!!.saveImageButton.setOnClickListener { saveEncodedImage() }
     }
 
     private fun imageChooser() {
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(
-            Intent.createChooser(intent, "Select Picture"),
-            SELECT_PICTURE
-        )
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE)
+    }
+
+    private fun encodeMessage() {
+        val message = binding!!.messageEditText.text.toString()
+        val secretKey = binding!!.secretKeyEditText.text.toString()
+        if (filePath != null && !message.isEmpty() && !secretKey.isEmpty()) {
+            try {
+                originalImage = MediaStore.Images.Media.getBitmap(contentResolver, filePath)
+                val imageSteganography = ImageSteganography(
+                    message,
+                    secretKey,
+                    originalImage
+                )
+                val textEncoding = TextEncoding(this@EncodeActivity, this@EncodeActivity)
+                textEncoding.execute(imageSteganography)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        } else {
+            Toast.makeText(this, "Please fill in all the details.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun saveEncodedImage() {
+        if (encodedImage != null) {
+            val outputStream: OutputStream
+            try {
+                val file = File(
+                    Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_DOWNLOADS
+                    ), "Encoded.png"
+                )
+                outputStream = FileOutputStream(file)
+                encodedImage!!.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+                outputStream.flush()
+                outputStream.close()
+                Toast.makeText(this, "Encoded image saved successfully.", Toast.LENGTH_SHORT).show()
+            } catch (e: FileNotFoundException) {
+                e.printStackTrace()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        } else {
+            Toast.makeText(this, "No encoded image found.", Toast.LENGTH_SHORT).show()
+        }
     }
 
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        //Image set to imageView
-        if (requestCode == SELECT_PICTURE && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
-            filepath = data.data!!
+        if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK && data != null && data.data != null) {
+            filePath = data?.data
             try {
-                original_image = MediaStore.Images.Media.getBitmap(contentResolver, filepath)
-                binding.imageview.setImageBitmap(original_image)
+                originalImage = MediaStore.Images.Media.getBitmap(contentResolver, filePath)
+                binding!!.imageView.setImageBitmap(originalImage)
             } catch (e: IOException) {
-                Log.d(TAG, "Error : $e")
+                e.printStackTrace()
             }
-        }
-    }
-
-    private fun saveToInternalStorage(imgToSave: Bitmap) {
-        val file = File(
-            Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOWNLOADS
-            ), "Encoded" + ".PNG"
-        )
-
-        try {
-            val fOut: OutputStream = FileOutputStream(file)
-            imgToSave.compress(Bitmap.CompressFormat.PNG, 100, fOut)
-            fOut.flush()
-            fOut.close()
-
-            // Add the image to the gallery using FileProvider
-            val imageUri = FileProvider.getUriForFile(
-                this,
-                "${packageName}.fileprovider",
-                file
-            )
-            val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
-            mediaScanIntent.data = imageUri
-            sendBroadcast(mediaScanIntent)
-
-            binding.whetherEncoded.post {
-                save.dismiss()
-                Toast.makeText(this@EncodeActivity, "Image saved successfully.", Toast.LENGTH_SHORT).show()
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-            binding.whetherEncoded.post {
-                save.dismiss()
-                Toast.makeText(this@EncodeActivity, "Failed to save image.", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    override fun onStartTextEncoding() {
-
-    }
-
-    override fun onCompleteTextEncoding(result: ImageSteganography?) {
-        //By the end of textEncoding
-        if (result != null && result.isEncoded()) {
-            encoded_image = result.getEncoded_image()
-            binding.whetherEncoded.setText("Encoded")
-            binding.imageview.setImageBitmap(encoded_image)
-            Log.e(TAG, "onCompleteTextEncoding: $encoded_image", )
         }
     }
 
     private fun checkAndRequestPermissions() {
-        val permissionWriteStorage = ContextCompat.checkSelfPermission(
-            this,
+        val permissions = arrayOf(
+            Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
-        val ReadPermission =
-            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-        val listPermissionsNeeded: MutableList<String> = ArrayList()
-        if (ReadPermission != PackageManager.PERMISSION_GRANTED) {
-            listPermissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE)
+        var allPermissionsGranted = true
+        for (permission in permissions) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    permission
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                allPermissionsGranted = false
+                break
+            }
         }
-        if (permissionWriteStorage != PackageManager.PERMISSION_GRANTED) {
-            listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        }
-        if (!listPermissionsNeeded.isEmpty()) {
-            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toTypedArray(), 1)
+        if (!allPermissionsGranted) {
+            ActivityCompat.requestPermissions(this, permissions, 1)
         }
     }
 
+    override fun onStartTextEncoding() {
+        // Show progress dialog or perform any UI operation
+    }
+
+    override fun onCompleteTextEncoding(result: ImageSteganography) {
+        if (result != null && result.isEncoded) {
+            encodedImage = result.encoded_image
+            binding!!.imageView.setImageBitmap(encodedImage)
+            Toast.makeText(this, "Message encoded successfully.", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "Message encoding failed.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    companion object {
+        private const val SELECT_PICTURE = 100
+    }
 }
-
-
-
-

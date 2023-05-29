@@ -18,28 +18,31 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.Pixology"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.stegnography.ImageStegnographyActivity"
+            android:exported="false" />
+
         <activity
             android:name=".ui.imagetopdf.PdfConvertoreActivity"
             android:exported="false" />
 
         <meta-data
             android:name="com.google.mlkit.vision.DEPENDENCIES"
-            android:value="ocr" />
+            android:value="ocr"></meta-data>
 
+        </meta-data>
         <activity
             android:name=".ui.imagecompressor.ImageCompressorActivity"
             android:exported="false" />
         <activity
             android:name=".ui.ocrScanner.OCRActivity"
             android:exported="false" />
-        <activity
-            android:name=".ui.stegnography.ImageStegnographyActivity"
-            android:exported="false" />
+
         <activity
             android:name=".ui.auth.otp.OtpActivity"
             android:exported="false" />
