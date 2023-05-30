@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".ui.imagestegnography2.EncodeActivity">
+    android:background="@color/white"
+    tools:context=".ui.stegnography.EncodeActivity">
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="350dp"
         />
 
     <EditText
@@ -26,25 +29,47 @@
         android:layout_below="@id/messageEditText"
         android:hint="Enter secret key" />
 
-    <Button
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/chooseImageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/secretKeyEditText"
-        android:text="Choose Image" />
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginHorizontal="16dp"
+        android:backgroundTint="@color/theme2"
+        android:gravity="center"
+        android:text="Choose Image"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:cornerRadius="100dp"
+        tools:ignore="TextContrastCheck" />
 
-    <Button
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/encodeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/chooseImageButton"
-        android:text="Encode Message" />
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginHorizontal="16dp"
+        android:backgroundTint="@color/theme2"
+        android:gravity="center"
+        android:text="Encode Message"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:cornerRadius="100dp"
+        tools:ignore="TextContrastCheck" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/saveImageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/encodeButton"
-        android:text="Save Encoded Image" />
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginHorizontal="16dp"
+        android:backgroundTint="@color/theme2"
+        android:gravity="center"
+        android:text="Save Encoded Image"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:cornerRadius="100dp"
+        tools:ignore="TextContrastCheck" />
 
-</RelativeLayout>
+
+
+</LinearLayout>
