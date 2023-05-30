@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.ayush.imagesteganographylibrary.Text.AsyncTaskCallback.TextDecodingCallback
 import com.ayush.imagesteganographylibrary.Text.ImageSteganography
@@ -78,7 +79,7 @@ class DecodeActivity : AppCompatActivity(), TextDecodingCallback {
             filepath = data.data
             try {
                 original_image = MediaStore.Images.Media.getBitmap(contentResolver, filepath)
-                binding.imageview.setImageBitmap(original_image)
+                binding.imageView.setImageBitmap(original_image)
             } catch (e: IOException) {
                 Log.d(TAG, "Error : $e")
             }
@@ -94,16 +95,16 @@ class DecodeActivity : AppCompatActivity(), TextDecodingCallback {
         //By the end of textDecoding
 
         if (result != null) {
-            if (!result.isDecoded) binding.whetherDecoded.text = "No message found" else {
+            if (!result.isDecoded) Toast.makeText(this,"No message found", Toast.LENGTH_SHORT).show() else {
                 if (!result.isSecretKeyWrong) {
-                    binding.whetherDecoded.text = "Decoded"
+                    Toast.makeText(this,"Decoded", Toast.LENGTH_SHORT).show()
                     binding.message.setText(/* text = */ "" + result.message)
                 } else {
-                    binding.whetherDecoded.text = "Wrong secret key"
+                    Toast.makeText(this,"Wrong Secret Key", Toast.LENGTH_SHORT).show()
                 }
             }
         } else {
-            binding.whetherDecoded.text = "Select Image First"
+            Toast.makeText(this,"Select Image First", Toast.LENGTH_SHORT).show()
         }
 
 

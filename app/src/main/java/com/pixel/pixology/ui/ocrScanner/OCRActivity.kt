@@ -21,6 +21,7 @@ import androidx.core.content.ContextCompat
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
+import com.pixel.pixology.R
 import com.pixel.pixology.databinding.ActivityOcractivityBinding
 import java.io.IOException
 
@@ -41,6 +42,7 @@ class OCRActivity : AppCompatActivity(), SurfaceHolder.Callback {
         super.onCreate(savedInstanceState)
         binding = ActivityOcractivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         binding.surfaceView.holder.addCallback(this)
         binding.detectTextImageBtn.setOnClickListener {

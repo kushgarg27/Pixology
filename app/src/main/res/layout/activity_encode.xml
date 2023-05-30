@@ -1,75 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="@color/white"
+    android:background="@color/theme"
     tools:context=".ui.stegnography.EncodeActivity">
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
-        />
+        android:layout_height="300dp"
+        android:src="@drawable/picture"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/messageEditText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_below="@id/imageView"
-        android:hint="Enter secret message" />
+        android:layout_marginVertical="15dp"
+        android:background="@drawable/edit_text_styling"
+        android:autoLink="all"
+        android:lines="5"
+        android:minLines="1"
+        android:gravity="top|left"
+        android:paddingStart="20dp"
+        android:paddingTop="15dp"
+        android:maxLines="10"
+        android:scrollbars="none"
+        android:hint="Enter secret message"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <EditText
         android:id="@+id/secretKeyEditText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_below="@id/messageEditText"
-        android:hint="Enter secret key" />
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/edit_text_styling"
+        android:hint="Enter secret key"
+        android:paddingStart="20dp"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/messageEditText" />
 
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/chooseImageButton"
+    <LinearLayout
+        android:id="@+id/linearLayout5"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_marginHorizontal="16dp"
-        android:backgroundTint="@color/theme2"
-        android:gravity="center"
-        android:text="Choose Image"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        app:cornerRadius="100dp"
-        tools:ignore="TextContrastCheck" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/encodeButton"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_marginHorizontal="16dp"
-        android:backgroundTint="@color/theme2"
-        android:gravity="center"
-        android:text="Encode Message"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        app:cornerRadius="100dp"
-        tools:ignore="TextContrastCheck" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/saveImageButton"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_marginHorizontal="16dp"
-        android:backgroundTint="@color/theme2"
-        android:gravity="center"
-        android:text="Save Encoded Image"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        app:cornerRadius="100dp"
-        tools:ignore="TextContrastCheck" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/chooseImageButton"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:backgroundTint="@color/theme2"
+            android:gravity="center"
+            android:text="Choose Image"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:cornerRadius="100dp"
+            tools:ignore="TextContrastCheck" />
 
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/encodeButton"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:backgroundTint="@color/theme2"
+            android:gravity="center"
+            android:text="Encode Message"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:cornerRadius="100dp"
+            tools:ignore="TextContrastCheck" />
 
-</LinearLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/saveImageButton"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:backgroundTint="@color/theme2"
+            android:gravity="center"
+            android:text="Save Encoded Image"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:cornerRadius="100dp"
+            tools:ignore="TextContrastCheck" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

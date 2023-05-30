@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import com.ayush.imagesteganographylibrary.Text.AsyncTaskCallback.TextEncodingCallback
 import com.ayush.imagesteganographylibrary.Text.ImageSteganography
 import com.ayush.imagesteganographylibrary.Text.TextEncoding
+import com.pixel.pixology.R
 import com.pixel.pixology.databinding.ActivityEncodeBinding
 import java.io.*
 

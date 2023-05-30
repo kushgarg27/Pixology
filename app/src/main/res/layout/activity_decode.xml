@@ -1,96 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="16dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/theme"
     tools:context=".ui.stegnography.DecodeActivity">
 
     <ImageView
-        android:id="@+id/imageview"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:src="@drawable/picture"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/choose_image_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="Choose Image" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/choose_image_button"
-        android:layout_marginTop="45dp"
-        android:layout_toStartOf="@+id/choose_image_button"
-        android:text="Secret Key -"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textAppearance="@style/TextAppearance.AppCompat.Button"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+
+
+<!--    <TextView-->
+<!--        android:id="@+id/textView"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@+id/choose_image_button"-->
+<!--        android:layout_marginTop="45dp"-->
+<!--        android:layout_toStartOf="@+id/choose_image_button"-->
+<!--        android:text="Secret Key -"-->
+<!--        android:textAlignment="center"-->
+<!--        android:textAllCaps="false"-->
+<!--        android:textAppearance="@style/TextAppearance.AppCompat.Button"-->
+<!--        android:textSize="16sp"-->
+<!--        android:textStyle="bold" />-->
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/message"
-        android:layout_alignBottom="@+id/message"
-        android:layout_alignStart="@+id/textView"
+        android:id="@+id/message"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginVertical="20dp"
         android:text="Message"
-        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textAlignment="textStart"
+        android:padding="10dp"
         android:textAllCaps="false"
         android:textAppearance="@style/TextAppearance.AppCompat.Button"
         android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/secret_key"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        tools:layout_editor_absoluteX="16dp" />
 
     <EditText
         android:id="@+id/secret_key"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView"
-        android:layout_alignBottom="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="18dp"
         android:ems="10"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/edit_text_styling"
         android:hint="Enter secret key"
         android:inputType="textPassword"
-        android:textSize="14sp" />
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <EditText
-        android:id="@+id/message"
-        android:layout_width="wrap_content"
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/decode_button"
-        android:layout_alignStart="@+id/secret_key"
-        android:layout_marginBottom="20dp"
-        android:ems="10"
-        android:hint="Your message"
-        android:inputType="textPersonName"
-        android:textSize="14sp" />
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-    <Button
-        android:id="@+id/decode_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="Decode"
-        android:textAlignment="center"
-        android:textSize="14dp" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/choose_image_button"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:backgroundTint="@color/theme2"
+            android:gravity="center"
+            android:text="Choose Image"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:cornerRadius="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:ignore="TextContrastCheck"
+            tools:layout_editor_absoluteX="16dp" />
 
-    <TextView
-        android:id="@+id/whether_decoded"
-        android:layout_width="70dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:textStyle="bold" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/decode_button"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:backgroundTint="@color/theme2"
+            android:gravity="center"
+            android:text="Decode Message"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:cornerRadius="100dp"
+            app:layout_constraintBottom_toTopOf="@+id/choose_image_button"
+            tools:ignore="TextContrastCheck"
+            tools:layout_editor_absoluteX="16dp" />
 
-</RelativeLayout>
+    </LinearLayout>
+
+
+<!--    <TextView-->
+<!--        android:id="@+id/whether_decoded"-->
+<!--        android:layout_width="70dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentStart="true"-->
+<!--        android:layout_alignParentTop="true"-->
+<!--        android:textStyle="bold" />-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

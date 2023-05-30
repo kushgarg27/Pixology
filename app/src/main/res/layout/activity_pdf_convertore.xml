@@ -58,13 +58,15 @@
         android:backgroundTint="@color/theme2"
         android:gravity="center"
         android:text="Convert to PDF"
+        android:clickable="false"
         android:textColor="@color/white"
         android:textSize="16sp"
         app:cornerRadius="100dp"
         app:layout_constraintBottom_toTopOf="@+id/btnSelectImages"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="TextContrastCheck" />
+        tools:ignore="TextContrastCheck"
+        android:focusable="false" />
 
     <LinearLayout
         android:layout_width="match_parent"

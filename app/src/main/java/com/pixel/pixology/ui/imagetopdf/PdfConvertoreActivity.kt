@@ -52,6 +52,7 @@ class PdfConvertoreActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = GridLayoutManager(this, 3)
         imageAdapter = ImageAdapter()
@@ -198,6 +199,7 @@ class PdfConvertoreActivity : AppCompatActivity() {
 
                 imageAdapter.notifyDataSetChanged()
                 recyclerView.visibility = RecyclerView.VISIBLE
+                binding.btnConvertToPdf.isClickable = true
             }
         }
     }
@@ -236,12 +238,14 @@ class PdfConvertoreActivity : AppCompatActivity() {
         }
 
         inner class ImageViewHolder(private val binding: ItemImageBinding) : RecyclerView.ViewHolder(binding.root) {
-
             fun bind(uri: Uri) {
                 val context = binding.imageView.context
+//                val delete = binding.deleteIcon.context
                 val bitmap: Bitmap = BitmapFactory.decodeStream(context.contentResolver.openInputStream(uri))
                 binding.imageView.setImageBitmap(bitmap)
+
             }
+
         }
     }
 }
