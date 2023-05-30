@@ -1,5 +1,4 @@
 package com.pixel.pixology.ui.ocrScanner
-
 import android.Manifest
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -43,12 +42,9 @@ class OCRActivity : AppCompatActivity(), SurfaceHolder.Callback {
         setContentView(binding.root)
 
         binding.surfaceView.holder.addCallback(this)
-        binding.detectTextImageBtn.setOnClickListener {
-            checkCameraPermission()
-        }
 
         binding.detectTextImageBtn.setOnClickListener {
-            captureImage()
+            openCamera()
         }
 
         binding.sendToWhatsappButton.setOnClickListener {
@@ -63,11 +59,9 @@ class OCRActivity : AppCompatActivity(), SurfaceHolder.Callback {
             val clip = ClipData.newPlainText("OCR Text", text)
             clipboard.setPrimaryClip(clip)
 
-            val text = binding.textView.text.toString().trim()
-            if (text.isNotEmpty()) {
-                val shareIntent = Intent(Intent.ACTION_SEND)
-                shareIntent.type = "text/plain"
-                shareIntent.putExtra(Intent.EXTRA_TEXT, text)
+            val shareIntent = Intent(Intent.ACTION_SEND)
+            shareIntent.type = "text/plain"
+            shareIntent.putExtra(Intent.EXTRA_TEXT, text)
             if (shareIntent.resolveActivity(packageManager) != null) {
                 startActivity(Intent.createChooser(shareIntent, "Share via"))
             } else {
@@ -75,12 +69,12 @@ class OCRActivity : AppCompatActivity(), SurfaceHolder.Callback {
             }
         } else {
             Toast.makeText(this, "No text to share", Toast.LENGTH_SHORT).show()
-        }}}
-
+        }
+    }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
         surfaceHolder = holder
-        openCamera()
+        checkCameraPermission()
     }
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
