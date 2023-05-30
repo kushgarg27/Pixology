@@ -17,6 +17,7 @@ import com.pixel.pixology.ui.auth.login.LoginActivity
 import com.pixel.pixology.ui.imagecompressor.ImageCompressorActivity
 import com.pixel.pixology.ui.imagetopdf.PdfConvertoreActivity
 import com.pixel.pixology.ui.ocrScanner.OCRActivity
+import com.pixel.pixology.ui.qrscanner.QrScannerActivity
 import com.pixel.pixology.ui.scanandsearch.ScanAndSearchActivity
 
 import com.pixel.pixology.ui.stegnography.ImageStegnographyActivity
@@ -103,6 +104,14 @@ class HomeActivity : AppCompatActivity() {
                 Intent(
                     this@HomeActivity, OCRActivity::class.java
                 
+                )
+            )
+        })
+        binding.qrCodeReaderBtn.setOnClickListener(View.OnClickListener {
+            startActivity(
+                Intent(
+                    this@HomeActivity, QrScannerActivity::class.java
+
                 )
             )
         })
