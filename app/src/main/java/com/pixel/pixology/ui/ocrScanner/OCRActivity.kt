@@ -1,4 +1,5 @@
 package com.pixel.pixology.ui.ocrScanner
+
 import android.Manifest
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -42,9 +43,12 @@ class OCRActivity : AppCompatActivity(), SurfaceHolder.Callback {
         setContentView(binding.root)
 
         binding.surfaceView.holder.addCallback(this)
+        binding.detectTextImageBtn.setOnClickListener {
+
+        }
 
         binding.detectTextImageBtn.setOnClickListener {
-            openCamera()
+            captureImage()
         }
 
         binding.sendToWhatsappButton.setOnClickListener {
@@ -59,9 +63,11 @@ class OCRActivity : AppCompatActivity(), SurfaceHolder.Callback {
             val clip = ClipData.newPlainText("OCR Text", text)
             clipboard.setPrimaryClip(clip)
 
-            val shareIntent = Intent(Intent.ACTION_SEND)
-            shareIntent.type = "text/plain"
-            shareIntent.putExtra(Intent.EXTRA_TEXT, text)
+            val text = binding.textView.text.toString().trim()
+            if (text.isNotEmpty()) {
+                val shareIntent = Intent(Intent.ACTION_SEND)
+                shareIntent.type = "text/plain"
+                shareIntent.putExtra(Intent.EXTRA_TEXT, text)
             if (shareIntent.resolveActivity(packageManager) != null) {
                 startActivity(Intent.createChooser(shareIntent, "Share via"))
             } else {
@@ -69,12 +75,12 @@ class OCRActivity : AppCompatActivity(), SurfaceHolder.Callback {
             }
         } else {
             Toast.makeText(this, "No text to share", Toast.LENGTH_SHORT).show()
-        }
-    }
+        }}}
+
 
     override fun surfaceCreated(holder: SurfaceHolder) {
         surfaceHolder = holder
-        checkCameraPermission()
+        openCamera()
     }
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
@@ -116,16 +122,28 @@ class OCRActivity : AppCompatActivity(), SurfaceHolder.Callback {
     }
 
     private fun openCamera() {
-        try {
-            camera = Camera.open()
-            camera?.setDisplayOrientation(90)
-            camera?.setPreviewDisplay(binding.surfaceView.holder)
-            setAutoFocus()
-            camera?.startPreview()
-            isPreviewing = true
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Toast.makeText(this, "Failed to open camera", Toast.LENGTH_SHORT).show()
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.CAMERA),
+                CAMERA_PERMISSION_REQUEST_CODE
+            )
+        } else {
+            try {
+                camera = Camera.open()
+                camera?.setDisplayOrientation(90)
+                camera?.setPreviewDisplay(binding.surfaceView.holder)
+                setAutoFocus()
+                camera?.startPreview()
+                isPreviewing = true
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Toast.makeText(this, "Failed to open camera", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -176,6 +194,5 @@ class OCRActivity : AppCompatActivity(), SurfaceHolder.Callback {
             openCamera()
         } else {
             Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show()
-        }
-    }
+        }}
 }
