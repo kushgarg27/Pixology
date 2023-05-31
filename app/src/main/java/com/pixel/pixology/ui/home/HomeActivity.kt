@@ -18,6 +18,7 @@ import com.pixel.pixology.ui.imagecompressor.ImageCompressorActivity
 import com.pixel.pixology.ui.imagetopdf.PdfConvertoreActivity
 import com.pixel.pixology.ui.ocrScanner.OCRActivity
 import com.pixel.pixology.ui.qrscanner.QrScannerActivity
+import com.pixel.pixology.ui.scanandsearch.GoogleLensActivity
 import com.pixel.pixology.ui.scanandsearch.ScanAndSearchActivity
 
 import com.pixel.pixology.ui.stegnography.ImageStegnographyActivity
@@ -77,7 +78,7 @@ class HomeActivity : AppCompatActivity() {
             startActivity(
                 Intent(
                     this@HomeActivity,
-                    ScanAndSearchActivity::class.java
+                    GoogleLensActivity::class.java
                 )
             )
         })

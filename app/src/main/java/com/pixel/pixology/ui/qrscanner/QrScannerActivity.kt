@@ -81,6 +81,12 @@ class QrScannerActivity : AppCompatActivity(), SurfaceHolder.Callback {
     private fun startCamera() {
         try {
             camera?.setPreviewDisplay(surfaceHolder)
+
+            // Enable autofocus
+            val parameters = camera?.parameters
+            parameters?.focusMode = Camera.Parameters.FOCUS_MODE_AUTO
+            camera?.parameters = parameters
+
             camera?.startPreview()
             startAutoFocus()
             captureCameraFrame()
