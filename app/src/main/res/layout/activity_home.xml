@@ -150,49 +150,7 @@
 
             </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/lens_Scan_searchBtn"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="40dp"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/home_activity_layouts">
 
-                <ImageView
-                    android:id="@+id/lens"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginStart="10dp"
-                    android:src="@drawable/lens" />
-
-                <TextView
-                    android:id="@+id/lensText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@+id/lens"
-                    android:fontFamily="@font/doppio_one"
-                    android:text="@string/scan_search"
-                    android:textColor="@color/black"
-                    android:textSize="25sp"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="10dp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="230dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/lensText"
-                    android:layout_marginStart="15dp"
-                    android:layout_toEndOf="@+id/lens"
-                    android:fontFamily="@font/doppio_one"
-                    android:text="Scan any image and search about it on web"
-                    android:textColor="@color/black"
-                    android:textSize="10sp" />
-
-            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/qrCodeReaderBtn"
@@ -328,6 +286,49 @@
 
 
 
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/lens_Scan_searchBtn"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/home_activity_layouts">
+
+                <ImageView
+                    android:id="@+id/lens"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/lens" />
+
+                <TextView
+                    android:id="@+id/lensText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/lens"
+                    android:fontFamily="@font/doppio_one"
+                    android:text="@string/scan_search"
+                    android:textColor="@color/black"
+                    android:textSize="25sp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="230dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lensText"
+                    android:layout_marginStart="15dp"
+                    android:layout_toEndOf="@+id/lens"
+                    android:fontFamily="@font/doppio_one"
+                    android:text="Scan any image and search about it on web"
+                    android:textColor="@color/black"
+                    android:textSize="10sp" />
 
             </RelativeLayout>
 
