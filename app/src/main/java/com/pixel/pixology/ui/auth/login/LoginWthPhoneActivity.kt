@@ -3,10 +3,10 @@ package com.pixel.pixology.ui.auth.login
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.safetynet.SafetyNet
 import com.google.android.gms.safetynet.SafetyNetApi
 import com.google.firebase.FirebaseException
@@ -15,7 +15,6 @@ import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken
-import com.google.firebase.auth.PhoneAuthProvider.OnVerificationStateChangedCallbacks
 import com.pixel.pixology.databinding.ActivityLoginWthPhoneBinding
 import com.pixel.pixology.ui.auth.otp.OtpActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,7 +24,7 @@ import java.util.concurrent.TimeUnit
 class LoginWthPhoneActivity : AppCompatActivity() {
 
     private var mAuth: FirebaseAuth? = null
-    private var mCallbacks: OnVerificationStateChangedCallbacks? = null
+    private var mCallbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks? = null
 
     private lateinit var binding: ActivityLoginWthPhoneBinding
 
@@ -33,6 +32,9 @@ class LoginWthPhoneActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginWthPhoneBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Prevent keyboard from automatically opening
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
 
         mAuth = FirebaseAuth.getInstance()
 
@@ -76,7 +78,7 @@ class LoginWthPhoneActivity : AppCompatActivity() {
     }
 
     private fun sendOtp(phoneNumber: String) {
-        mCallbacks = object : OnVerificationStateChangedCallbacks() {
+        mCallbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             override fun onVerificationCompleted(credential: PhoneAuthCredential) {
                 // Auto-retrieval of verification code is done by Firebase
             }
@@ -104,7 +106,7 @@ class LoginWthPhoneActivity : AppCompatActivity() {
             .setPhoneNumber("+91$phoneNumber") // Phone number to verify
             .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
             .setActivity(this) // Activity (for callback binding)
-            .setCallbacks(mCallbacks as OnVerificationStateChangedCallbacks) // OnVerificationStateChangedCallbacks
+            .setCallbacks(mCallbacks as PhoneAuthProvider.OnVerificationStateChangedCallbacks) // OnVerificationStateChangedCallbacks
             .build()
 
         PhoneAuthProvider.verifyPhoneNumber(options)

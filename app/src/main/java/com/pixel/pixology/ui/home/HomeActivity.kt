@@ -3,8 +3,11 @@ package com.pixel.pixology.ui.home
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -14,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.pixel.pixology.R
 import com.pixel.pixology.databinding.ActivityHomeBinding
 import com.pixel.pixology.ui.auth.login.LoginActivity
+import com.pixel.pixology.ui.auth.login.LoginWthPhoneActivity
 import com.pixel.pixology.ui.imagecompressor.ImageCompressorActivity
 import com.pixel.pixology.ui.imagetopdf.PdfConvertoreActivity
 import com.pixel.pixology.ui.ocrScanner.OCRActivity
@@ -57,30 +61,54 @@ class HomeActivity : AppCompatActivity() {
 
 
         binding.imageCompressorBtn.setOnClickListener(View.OnClickListener {
-            startActivity(
-                Intent(
-                    this@HomeActivity,
-                    ImageCompressorActivity::class.java
-                )
-            )
+            val loaderView = layoutInflater.inflate(R.layout.loader, null)
+
+            // Add the loader view to the activity's view
+            addContentView(loaderView, RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT))
+
+            // Delay starting the new activity for 2 seconds
+            Handler().postDelayed({
+                // Remove the loader view
+                (loaderView.parent as? ViewGroup)?.removeView(loaderView)
+
+                // Start the new activity
+                val intent = Intent(this@HomeActivity, ImageCompressorActivity::class.java)
+                startActivity(intent)
+            }, 2000)
         })
 
         binding.imgToPdfBtn.setOnClickListener(View.OnClickListener {
-            startActivity(
-                Intent(
-                    this@HomeActivity,
-                    PdfConvertoreActivity::class.java
-                )
-            )
+            val loaderView = layoutInflater.inflate(R.layout.loader, null)
+
+            // Add the loader view to the activity's view
+            addContentView(loaderView, RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT))
+
+            // Delay starting the new activity for 2 seconds
+            Handler().postDelayed({
+                // Remove the loader view
+                (loaderView.parent as? ViewGroup)?.removeView(loaderView)
+
+                // Start the new activity
+                val intent = Intent(this@HomeActivity, PdfConvertoreActivity::class.java)
+                startActivity(intent)
+            }, 2000)
         })
 
         binding.lensScanSearchBtn.setOnClickListener(View.OnClickListener {
-            startActivity(
-                Intent(
-                    this@HomeActivity,
-                    GoogleLensActivity::class.java
-                )
-            )
+            val loaderView = layoutInflater.inflate(R.layout.loader, null)
+
+            // Add the loader view to the activity's view
+            addContentView(loaderView, RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT))
+
+            // Delay starting the new activity for 2 seconds
+            Handler().postDelayed({
+                // Remove the loader view
+                (loaderView.parent as? ViewGroup)?.removeView(loaderView)
+
+                // Start the new activity
+                val intent = Intent(this@HomeActivity, GoogleLensActivity::class.java)
+                startActivity(intent)
+            }, 2000)
         })
 
 
@@ -92,29 +120,53 @@ class HomeActivity : AppCompatActivity() {
 
     private fun movedNext() {
         binding.imgStegnographyBtn.setOnClickListener(View.OnClickListener {
-            startActivity(
-                Intent(
-                    this@HomeActivity,
-                    ImageStegnographyActivity::class.java
-                )
-            )
+            val loaderView = layoutInflater.inflate(R.layout.loader, null)
+
+            // Add the loader view to the activity's view
+            addContentView(loaderView, RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT))
+
+            // Delay starting the new activity for 2 seconds
+            Handler().postDelayed({
+                // Remove the loader view
+                (loaderView.parent as? ViewGroup)?.removeView(loaderView)
+
+                // Start the new activity
+                val intent = Intent(this@HomeActivity, ImageStegnographyActivity::class.java)
+                startActivity(intent)
+            }, 2000)
         })
 
         binding.ocrScannerBtn.setOnClickListener(View.OnClickListener {
-            startActivity(
-                Intent(
-                    this@HomeActivity, OCRActivity::class.java
-                
-                )
-            )
+            val loaderView = layoutInflater.inflate(R.layout.loader, null)
+
+            // Add the loader view to the activity's view
+            addContentView(loaderView, RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT))
+
+            // Delay starting the new activity for 2 seconds
+            Handler().postDelayed({
+                // Remove the loader view
+                (loaderView.parent as? ViewGroup)?.removeView(loaderView)
+
+                // Start the new activity
+                val intent = Intent(this@HomeActivity, OCRActivity::class.java)
+                startActivity(intent)
+            }, 2000)
         })
         binding.qrCodeReaderBtn.setOnClickListener(View.OnClickListener {
-            startActivity(
-                Intent(
-                    this@HomeActivity, QrScannerActivity::class.java
+            val loaderView = layoutInflater.inflate(R.layout.loader, null)
 
-                )
-            )
+            // Add the loader view to the activity's view
+            addContentView(loaderView, RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT))
+
+            // Delay starting the new activity for 2 seconds
+            Handler().postDelayed({
+                // Remove the loader view
+                (loaderView.parent as? ViewGroup)?.removeView(loaderView)
+
+                // Start the new activity
+                val intent = Intent(this@HomeActivity, QrScannerActivity::class.java)
+                startActivity(intent)
+            }, 2000)
         })
 
     }

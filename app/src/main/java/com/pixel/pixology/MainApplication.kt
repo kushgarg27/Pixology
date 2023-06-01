@@ -19,6 +19,8 @@ class MainApplication:Application(){
 
 
 
+
+
         //dark mode disable
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }

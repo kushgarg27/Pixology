@@ -3,9 +3,13 @@ package com.pixel.pixology.ui.auth.login
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.text.TextUtils
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.ProgressBar
+import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -47,6 +51,12 @@ class LoginActivity : AppCompatActivity() {
 
         setupGoogleSignIn()
         setupClickListeners()
+
+
+
+
+
+
     }
 
     private fun setupGoogleSignIn() {
@@ -59,13 +69,39 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setupClickListeners() {
         binding.loginWithPhone.setOnClickListener {
-            val intent = Intent(this@LoginActivity, LoginWthPhoneActivity::class.java)
-            startActivity(intent)
+
+            val loaderView = layoutInflater.inflate(R.layout.loader, null)
+
+            // Add the loader view to the activity's view
+            addContentView(loaderView, RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT))
+
+            // Delay starting the new activity for 2 seconds
+            Handler().postDelayed({
+                // Remove the loader view
+                (loaderView.parent as? ViewGroup)?.removeView(loaderView)
+
+                // Start the new activity
+                val intent = Intent(this@LoginActivity, LoginWthPhoneActivity::class.java)
+                startActivity(intent)
+            }, 2000)
         }
 
         binding.newUserSignup.setOnClickListener {
-            val intent = Intent(this@LoginActivity, SignupActivity::class.java)
-            startActivity(intent)
+
+            val loaderView = layoutInflater.inflate(R.layout.loader, null)
+
+            // Add the loader view to the activity's view
+            addContentView(loaderView, RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT))
+
+            // Delay starting the new activity for 2 seconds
+            Handler().postDelayed({
+                // Remove the loader view
+                (loaderView.parent as? ViewGroup)?.removeView(loaderView)
+
+                // Start the new activity
+                val intent = Intent(this@LoginActivity, SignupActivity::class.java)
+                startActivity(intent)},2000)
+
         }
 
         binding.loginWithGoogle.setOnClickListener {
@@ -76,6 +112,8 @@ class LoginActivity : AppCompatActivity() {
             logInUser()
         }
     }
+
+
 
     private fun logInUser() {
         val email = binding.etEmail.text.toString()
